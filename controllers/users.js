@@ -1,20 +1,9 @@
-import {v4 as uuidv4} from "uuid";
-import {User} from "../models/userModel.js";
-
-
-let users = [
-    {
-        "uuid": uuidv4(),
-        "name": "John",
-        "surname": "Doe",
-        "age": 25
-    }
-];
+import {User} from "../models/user.js";
 
 export const createUser = async (req, res) => {
     const newUser = req.body;
     const savedUser = await User.create(newUser)
-    res.send(`User with name ${savedUser.name} added to DB`);
+    res.json(savedUser);
 }
 
 export const getUser = async (req, res) => {
@@ -42,7 +31,7 @@ export const deleteUser = async (req, res) => {
 export const updateUser = async (req, res) => {
     const id = req.params.id;
     const user = req.body;
-    const options = { returnOriginal: false };
+    const options = {returnOriginal: false};
     const updated = await User.findByIdAndUpdate(id, {$set: user}, options)
     res.json(updated);
 }
